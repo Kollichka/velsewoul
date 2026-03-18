@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Личная страница Velsewoul</title>
+    <link rel="stylesheet" href="site.css">
+</head>
+<body>
+    <!-- Оверлей для первого клика (поверх всего) -->
+    <div id="start-overlay" class="start-overlay">
+        <div class="overlay-content">
+            <p>Нажмите в любом месте, чтобы включить музыку</p>
+        </div>
+    </div>
+
+    <!-- Фоновое видео (запускается после клика) -->
+    <video id="bg-video" class="background-video" loop muted playsinline>
+        <source src="background.mp4" type="video/mp4">
+        Ваш браузер не поддерживает видео.
+    </video>
+    <!-- Затемняющий слой поверх видео -->
+    <div class="video-overlay"></div>
+
+    <header>
+        <div class="container">
+            <h1>Velsewoul</h1>
+            <nav>
+                <ul>
+                    <li><a href="#about">Обо мне</a></li>
+                    <li><a href="#skills">Навыки</a></li>
+                    <li><a href="#contact">Контакты</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <!-- Секция "О себе" -->
+        <section id="about" class="about">
+            <div class="container">
+                <div class="about-content">
+                    <img src="myphoto.jpg" alt="Фото Velsewoul" class="profile-photo">
+                    <div class="about-text">
+                        <h2>Привет, я Velsewoul!</h2>
+                        <p>Вельзевул - маленький демон, у которого размыто прошлое из-за огромного количества психологических травм. С самого появления на свет за ней по пятам следовали бедствия, проклятия, невзгоды, хотя сама Вельзя подсознательно не хотела приносить окружающим одни страдания. Чтобы избежать такой картины, Вельзевул решается навсегда изолироваться от цивилизации и полностью погружается в нижний мир под Дуатом. Тут Вельзевул находит свое успокоение и дистанционно связывается с другими видами жизни, чтобы не сойти с ума.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Секция "Навыки" -->
+        <section id="skills" class="skills">
+            <div class="container">
+                <h2>Мои навыки</h2>
+                <div class="skills-grid">
+                    <div class="skill-card">Figma</div>
+                    <div class="skill-card">дизайн</div>
+                    <div class="skill-card">Adobe Photoshop</div>
+                    <div class="skill-card">After Effects</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Секция "Контакты" -->
+        <section id="contact" class="contact">
+            <div class="container">
+                <h2>Свяжитесь со мной</h2>
+                <p>Вы можете написать мне в соцсетях или отправить письмо на почту:</p>
+                <ul class="contact-list">
+                    <li><a href="mailto:velsewoul@example.com">velsewoul@example.com</a></li>
+                    <li><a href="#" target="_blank">Telegram</a></li>
+                    <li><a href="#" target="_blank">GitHub</a></li>
+                </ul>
+                <p class="contact-note">Буду рада новым знакомствам и интересным проектам!</p>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2025 Velsewoul. Все права защищены.</p>
+        </div>
+    </footer>
+
+    <!-- Фоновая музыка -->
+    <audio id="bg-music" loop preload="auto">
+        <source src="music.mp3" type="audio/mpeg">
+        Ваш браузер не поддерживает аудио.
+    </audio>
+
+    <!-- Панель управления музыкой -->
+    <div class="music-control">
+        <button id="music-play-pause" class="music-btn play" aria-label="Включить музыку">▶</button>
+        <input type="range" id="music-volume" class="music-volume" min="0" max="1" step="0.1" value="0.5">
+        <span id="music-status" class="music-status">Выкл</span>
+    </div>
+
+    <script>
+        const audio = document.getElementById('bg-music');
+        const video = document.getElementById('bg-video');
+        const playPauseBtn = document.getElementById('music-play-pause');
+        const volumeControl = document.getElementById('music-volume');
+        const statusSpan = document.getElementById('music-status');
+        const overlay = document.getElementById('start-overlay');
+
+        overlay.addEventListener('click', function () {
+            overlay.classList.add('hidden');
+
+            // Запускаем видео
+            video.play().catch(error => {
+                console.log('Ошибка воспроизведения видео:', error);
+            });
+
+            // Запускаем музыку
+            audio.play().then(() => {
+                playPauseBtn.textContent = '⏸️';
+                statusSpan.textContent = 'Играет';
+            }).catch(error => {
+                console.log('Ошибка воспроизведения музыки:', error);
+                playPauseBtn.textContent = '▶️';
+                statusSpan.textContent = 'Выкл';
+            });
+        });
+
+        playPauseBtn.addEventListener('click', () => {
+            if (audio.paused) {
+                audio.play();
+                playPauseBtn.textContent = '⏸️';
+                statusSpan.textContent = 'Играет';
+            } else {
+                audio.pause();
+                playPauseBtn.textContent = '▶️';
+                statusSpan.textContent = 'Пауза';
+            }
+        });
+
+        volumeControl.addEventListener('input', (e) => {
+            audio.volume = e.target.value;
+        });
+    </script>
+</body>
+</html>
