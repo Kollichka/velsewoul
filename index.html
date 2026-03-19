@@ -26,6 +26,9 @@
     <!-- Затемняющий слой поверх видео -->
     <div class="video-overlay"></div>
 
+    <!-- Контейнер для искр костра -->
+    <div id="sparks-container" class="sparks-container"></div>
+
     <!-- Шапка сайта (изначально на весь экран) -->
     <header id="main-header">
         <div class="container">
@@ -67,7 +70,7 @@
             </div>
         </section>
 
-        <!-- Секция "Контакты" (с исправленными кнопками) -->
+        <!-- Секция "Контакты" -->
         <section id="contact" class="contact">
             <div class="container">
                 <h2>Свяжитесь со мной</h2>
@@ -103,6 +106,7 @@
     </div>
 
     <script>
+        // Инициализация аудио, видео и оверлея
         const audio = document.getElementById('bg-music');
         const video = document.getElementById('bg-video');
         const playPauseBtn = document.getElementById('music-play-pause');
@@ -111,7 +115,6 @@
         const overlay = document.getElementById('start-overlay');
         const header = document.getElementById('main-header');
 
-        // Оверлей первого клика
         overlay.addEventListener('click', function () {
             overlay.classList.add('hidden');
             video.play().catch(error => console.log('Ошибка видео:', error));
@@ -125,7 +128,6 @@
             });
         });
 
-        // Кнопка play/pause
         playPauseBtn.addEventListener('click', () => {
             if (audio.paused) {
                 audio.play();
@@ -138,12 +140,10 @@
             }
         });
 
-        // Громкость
         volumeControl.addEventListener('input', (e) => {
             audio.volume = e.target.value;
         });
 
-        // Эффект сжатия шапки при скролле
         window.addEventListener('scroll', () => {
             if (window.scrollY > 10) {
                 header.classList.add('shrink');
@@ -151,6 +151,38 @@
                 header.classList.remove('shrink');
             }
         });
+
+        // Генерация искр костра
+        const sparksContainer = document.getElementById('sparks-container');
+        const numberOfSparks = 50; // количество искр
+
+        for (let i = 0; i < numberOfSparks; i++) {
+            const spark = document.createElement('div');
+            spark.classList.add('spark');
+
+            // Случайные размеры от 2px до 6px
+            const size = Math.random() * 4 + 2; // 2-6px
+            spark.style.width = size + 'px';
+            spark.style.height = size + 'px';
+
+            // Случайная начальная позиция (по горизонтали 0-100vw, по вертикали 0-100vh)
+            spark.style.left = Math.random() * 100 + 'vw';
+            spark.style.top = Math.random() * 100 + 'vh';
+
+            // Случайная продолжительность анимации (3-8 секунд)
+            const duration = Math.random() * 5 + 3;
+            spark.style.animation = `floatSpark ${duration}s linear infinite`;
+
+            // Задержка начала анимации, чтобы искры не двигались синхронно
+            spark.style.animationDelay = Math.random() * 5 + 's';
+
+            // Случайный оттенок: от жёлтого до красного
+            const hue = Math.random() * 30 + 10; // 10-40 градусов (оранжево-красный)
+            spark.style.backgroundColor = `hsl(${hue}, 100%, 60%)`;
+            spark.style.boxShadow = `0 0 ${size * 2}px hsl(${hue}, 100%, 70%)`;
+
+            sparksContainer.appendChild(spark);
+        }
     </script>
 </body>
 </html>
