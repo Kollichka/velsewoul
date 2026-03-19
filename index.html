@@ -4,6 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Личная страница Velsewoul</title>
+    <!-- Особый шрифт для заголовка -->
+    <link href="https://fonts.googleapis.com/css2?family=Creepster&display=swap" rel="stylesheet">
+    <!-- Иконки Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <link rel="stylesheet" href="site.css">
 </head>
@@ -23,7 +26,8 @@
     <!-- Затемняющий слой поверх видео -->
     <div class="video-overlay"></div>
 
-    <header>
+    <!-- Шапка сайта (изначально на весь экран) -->
+    <header id="main-header">
         <div class="container">
             <h1>Velsewoul</h1>
             <nav>
@@ -63,59 +67,20 @@
             </div>
         </section>
 
-        <!-- Секция "Контакты" -->
-        <div style="display: flex; gap: 15px; flex-wrap: wrap; justify-content: center; margin: 30px 0;">
-
-            <!-- Telegram -->
-            <a href="https://t.me/velsewoul" target="_blank" rel="noopener noreferrer"
-               style="display: inline-flex; align-items: center; gap: 8px; background: #f0f0f0; color: #333;
-            padding: 10px 20px; border-radius: 30px; text-decoration: none; font-family: Arial, sans-serif;
-            transition: 0.3s;"
-               onmouseover="this.style.background='#0088cc'; this.style.color='white'"
-               onmouseout="this.style.background='#f0f0f0'; this.style.color='#333'">
-                <i class="fab fa-telegram-plane"></i> Telegram
-            </a>
-
-            <!-- TikTok -->
-            <a href="https://tiktok.com/@velsewoul_andro" target="_blank" rel="noopener noreferrer"
-               style="display: inline-flex; align-items: center; gap: 8px; background: #f0f0f0; color: #333;
-            padding: 10px 20px; border-radius: 30px; text-decoration: none; font-family: Arial, sans-serif;
-            transition: 0.3s;"
-               onmouseover="this.style.background='black'; this.style.color='white'"
-               onmouseout="this.style.background='#f0f0f0'; this.style.color='#333'">
-                <i class="fab fa-tiktok"></i> TikTok
-            </a>
-
-            <!-- Discord -->
-            <a href="https://discord.com/users/955137516720250970" target="_blank" rel="noopener noreferrer"
-               style="display: inline-flex; align-items: center; gap: 8px; background: #f0f0f0; color: #333;
-            padding: 10px 20px; border-radius: 30px; text-decoration: none; font-family: Arial, sans-serif;
-            transition: 0.3s;"
-               onmouseover="this.style.background='blue'; this.style.color='white'"
-               onmouseout="this.style.background='#f0f0f0'; this.style.color='#333'">
-                <i class="fab fa-discord"></i> Discord
-            </a>
-
-            <!-- YouTube -->
-            <a href="https://youtube.com/@yaoowazodub" target="_blank" rel="noopener noreferrer"
-               style="display: inline-flex; align-items: center; gap: 8px; background: #f0f0f0; color: #333;
-padding: 10px 20px; border-radius: 30px; text-decoration: none; font-family: Arial, sans-serif;
-transition: 0.3s;"
-               onmouseover="this.style.background='red'; this.style.color='white'"
-               onmouseout="this.style.background='#f0f0f0'; this.style.color='#333'">
-                <i class="fab fa-youtube"></i> YouTube
-            </a>
-
-            <!-- Twitch -->
-            <a href="https://twitch.tv/velsewoul" target="_blank" rel="noopener noreferrer"
-               style="display: inline-flex; align-items: center; gap: 8px; background: #f0f0f0; color: #333;
-padding: 10px 20px; border-radius: 30px; text-decoration: none; font-family: Arial, sans-serif;
-transition: 0.3s;"
-               onmouseover="this.style.background='purple'; this.style.color='white'"
-               onmouseout="this.style.background='#f0f0f0'; this.style.color='#333'">
-                <i class="fab fa-twitch"></i> Twitch
-            </a>
-        </div>
+        <!-- Секция "Контакты" (с исправленными кнопками) -->
+        <section id="contact" class="contact">
+            <div class="container">
+                <h2>Свяжитесь со мной</h2>
+                <ul class="contact-list">
+                    <li><a href="https://t.me/velsewoul" target="_blank" rel="noopener noreferrer"><i class="fab fa-telegram-plane"></i> Telegram</a></li>
+                    <li><a href="https://tiktok.com/@velsewoul_andro" target="_blank" rel="noopener noreferrer"><i class="fab fa-tiktok"></i> TikTok</a></li>
+                    <li><a href="https://discord.com/users/955137516720250970" target="_blank" rel="noopener noreferrer"><i class="fab fa-discord"></i> Discord</a></li>
+                    <li><a href="https://youtube.com/@yaoowazodub" target="_blank" rel="noopener noreferrer"><i class="fab fa-youtube"></i> YouTube</a></li>
+                    <li><a href="https://twitch.tv/velsewoul" target="_blank" rel="noopener noreferrer"><i class="fab fa-twitch"></i> Twitch</a></li>
+                </ul>
+                <p class="contact-note">Буду рада новым знакомствам и интересным проектам!</p>
+            </div>
+        </section>
     </main>
 
     <footer>
@@ -144,26 +109,23 @@ transition: 0.3s;"
         const volumeControl = document.getElementById('music-volume');
         const statusSpan = document.getElementById('music-status');
         const overlay = document.getElementById('start-overlay');
+        const header = document.getElementById('main-header');
 
+        // Оверлей первого клика
         overlay.addEventListener('click', function () {
             overlay.classList.add('hidden');
-
-            // Запускаем видео
-            video.play().catch(error => {
-                console.log('Ошибка воспроизведения видео:', error);
-            });
-
-            // Запускаем музыку
+            video.play().catch(error => console.log('Ошибка видео:', error));
             audio.play().then(() => {
                 playPauseBtn.textContent = '⏸️';
                 statusSpan.textContent = 'Играет';
             }).catch(error => {
-                console.log('Ошибка воспроизведения музыки:', error);
+                console.log('Ошибка музыки:', error);
                 playPauseBtn.textContent = '▶️';
                 statusSpan.textContent = 'Выкл';
             });
         });
 
+        // Кнопка play/pause
         playPauseBtn.addEventListener('click', () => {
             if (audio.paused) {
                 audio.play();
@@ -176,8 +138,18 @@ transition: 0.3s;"
             }
         });
 
+        // Громкость
         volumeControl.addEventListener('input', (e) => {
             audio.volume = e.target.value;
+        });
+
+        // Эффект сжатия шапки при скролле
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 10) {
+                header.classList.add('shrink');
+            } else {
+                header.classList.remove('shrink');
+            }
         });
     </script>
 </body>
