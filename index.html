@@ -29,10 +29,10 @@
     <!-- Контейнер для искр костра -->
     <div id="sparks-container" class="sparks-container"></div>
 
-    <!-- Шапка сайта (изначально на весь экран) -->
+    <!-- Шапка с заголовком и навигацией -->
     <header id="main-header">
         <div class="container">
-            <h1>Velsewoul</h1>
+            <h1 id="logo">Velsewoul</h1>
             <nav>
                 <ul>
                     <li><a href="#about">Обо мне</a></li>
@@ -106,7 +106,6 @@
     </div>
 
     <script>
-        // Инициализация аудио, видео и оверлея
         const audio = document.getElementById('bg-music');
         const video = document.getElementById('bg-video');
         const playPauseBtn = document.getElementById('music-play-pause');
@@ -114,7 +113,9 @@
         const statusSpan = document.getElementById('music-status');
         const overlay = document.getElementById('start-overlay');
         const header = document.getElementById('main-header');
+        const logo = document.getElementById('logo'); // заголовок Velsewoul
 
+        // Клик по оверлею – запуск видео и музыки
         overlay.addEventListener('click', function () {
             overlay.classList.add('hidden');
             video.play().catch(error => console.log('Ошибка видео:', error));
@@ -128,6 +129,7 @@
             });
         });
 
+        // Кнопка play/pause музыки
         playPauseBtn.addEventListener('click', () => {
             if (audio.paused) {
                 audio.play();
@@ -140,10 +142,12 @@
             }
         });
 
+        // Регулировка громкости
         volumeControl.addEventListener('input', (e) => {
             audio.volume = e.target.value;
         });
 
+        // Эффект сжатия шапки при скролле
         window.addEventListener('scroll', () => {
             if (window.scrollY > 10) {
                 header.classList.add('shrink');
@@ -152,35 +156,32 @@
             }
         });
 
+        // Прокрутка вверх при клике на логотип Velsewoul
+        logo.addEventListener('click', () => {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        });
+
         // Генерация искр костра
         const sparksContainer = document.getElementById('sparks-container');
-        const numberOfSparks = 50; // количество искр
+        const numberOfSparks = 50;
 
         for (let i = 0; i < numberOfSparks; i++) {
             const spark = document.createElement('div');
             spark.classList.add('spark');
-
-            // Случайные размеры от 2px до 6px
-            const size = Math.random() * 4 + 2; // 2-6px
+            const size = Math.random() * 4 + 2;
             spark.style.width = size + 'px';
             spark.style.height = size + 'px';
-
-            // Случайная начальная позиция (по горизонтали 0-100vw, по вертикали 0-100vh)
             spark.style.left = Math.random() * 100 + 'vw';
             spark.style.top = Math.random() * 100 + 'vh';
-
-            // Случайная продолжительность анимации (3-8 секунд)
             const duration = Math.random() * 5 + 3;
             spark.style.animation = `floatSpark ${duration}s linear infinite`;
-
-            // Задержка начала анимации, чтобы искры не двигались синхронно
             spark.style.animationDelay = Math.random() * 5 + 's';
-
-            // Случайный оттенок: от жёлтого до красного
-            const hue = Math.random() * 30 + 10; // 10-40 градусов (оранжево-красный)
+            const hue = Math.random() * 30 + 10;
             spark.style.backgroundColor = `hsl(${hue}, 100%, 60%)`;
             spark.style.boxShadow = `0 0 ${size * 2}px hsl(${hue}, 100%, 70%)`;
-
             sparksContainer.appendChild(spark);
         }
     </script>
