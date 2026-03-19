@@ -14,6 +14,7 @@ body {
     flex-direction: column;
     min-height: 100vh;
     overflow-x: hidden;
+    -webkit-overflow-scrolling: touch; /* плавный скролл на iOS */
 }
 
 .container {
@@ -126,7 +127,7 @@ header {
         transition: font-size 0.5s ease;
         text-shadow: 4px 4px 8px black;
         margin: 0;
-        cursor: pointer; /* чтобы было понятно, что кликабельно */
+        cursor: pointer; /* указываем, что элемент кликабельный */
     }
 
     /* Навигация в развёрнутом состоянии */
@@ -158,11 +159,11 @@ header {
     }
 
         header.shrink::before {
-            display: none; /* убираем размытый фон */
+            display: none;
         }
 
         header.shrink .container {
-            background-color: rgba(30, 74, 59, 0.7); /* лёгкий полупрозрачный фон */
+            background-color: rgba(30, 74, 59, 0.7);
             backdrop-filter: blur(10px);
             -webkit-backdrop-filter: blur(10px);
             border-radius: 50px;
@@ -185,7 +186,6 @@ header {
             cursor: pointer;
         }
 
-        /* Навигация в сжатом состоянии */
         header.shrink nav ul {
             display: flex;
             gap: 1.5rem;
@@ -453,7 +453,7 @@ footer {
     pointer-events: none;
 }
 
-/* Адаптивность */
+/* Адаптивность для мобильных */
 @media (max-width: 768px) {
     header h1 {
         font-size: 4rem;
@@ -463,21 +463,28 @@ footer {
         font-size: 1.2rem;
     }
 
-    header.shrink h1 {
-        font-size: 1.5rem;
+    header.shrink {
+        height: 60px;
+        min-height: 60px;
     }
 
-    header.shrink .container {
-        padding: 0.3rem 1rem;
-    }
+        header.shrink h1 {
+            font-size: 1.5rem;
+            line-height: 60px;
+        }
 
-    header.shrink nav ul {
-        gap: 1rem;
-    }
+        header.shrink .container {
+            padding: 0.2rem 1rem;
+            border-radius: 30px;
+        }
 
-    header.shrink nav a {
-        font-size: 0.9rem;
-    }
+        header.shrink nav ul {
+            gap: 1rem;
+        }
+
+        header.shrink nav a {
+            font-size: 0.9rem;
+        }
 
     .about-content {
         flex-direction: column;
@@ -518,9 +525,40 @@ footer {
         padding: 1.5rem 2rem;
         font-size: 1.2rem;
     }
+
+    header.shrink .container {
+        flex-direction: column;
+        align-items: center;
+        padding: 0.5rem;
+    }
+
+    header.shrink h1 {
+        line-height: 1.2;
+        margin-bottom: 0.3rem;
+    }
+
+    header.shrink nav ul {
+        gap: 0.8rem;
+        justify-content: center;
+    }
+
+    header.shrink nav a {
+        font-size: 0.85rem;
+    }
 }
 
 @media (max-width: 480px) {
+    /* Убираем sticky на очень маленьких экранах для избежания проблем с адресной строкой */
+    header {
+        position: relative;
+        height: 100vh; /* сохраняем высоту, но sticky отключаем */
+    }
+
+        header.shrink {
+            position: sticky; /* возвращаем sticky в сжатом состоянии, если нужно */
+            top: 0;
+        }
+
     section {
         padding: 2rem 0;
     }
@@ -537,20 +575,5 @@ footer {
     footer .container {
         border-radius: 30px;
         padding: 1rem;
-    }
-
-    header.shrink .container {
-        flex-direction: column;
-        align-items: center;
-        border-radius: 30px;
-    }
-
-    header.shrink h1 {
-        line-height: 1.2;
-        margin-bottom: 0.3rem;
-    }
-
-    header.shrink nav ul {
-        gap: 0.8rem;
     }
 }
