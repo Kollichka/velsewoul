@@ -53,8 +53,8 @@ body {
     left: 0;
     width: 100%;
     height: 100%;
-    pointer-events: none; /* чтобы не мешать кликам */
-    z-index: 5; /* выше видео, ниже оверлея (2000) и контента (10) */
+    pointer-events: none;
+    z-index: 5;
     overflow: hidden;
 }
 
@@ -68,61 +68,7 @@ body {
     opacity: 0.9;
 }
 
-/* Анимация искры: подъём, изменение прозрачности и горизонтальный дрейф */
-@keyframes floatSpark {
-    0% {
-        transform: translateY(0) translateX(0);
-        opacity: 0.9;
-    }
-
-    50% {
-        opacity: 0.5;
-    }
-
-    100% {
-        transform: translateY(-100vh) translateX(calc(100vw * (random() - 0.5) * 0.2)); /* нельзя random в CSS, но сдвиг будет задан через JS? Упростим: */
-        /* В CSS нельзя random, поэтому оставим только вертикаль и добавим горизонтальный сдвиг через дополнительную переменную? */
-        /* Для простоты используем только вертикаль и небольшие горизонтальные колебания через translateX, но без рандома в CSS. */
-        /* Вместо этого можно добавить случайный сдвиг через style в JS, но для чистоты оставим базовую анимацию. */
-        /* Перепишем анимацию без random: */
-        transform: translateY(-100vh) translateX(20px);
-        opacity: 0;
-    }
-}
-
-/* Исправим анимацию, чтобы горизонтальный сдвиг был случайным, но в CSS это невозможно. 
-   Добавим несколько классов анимаций с разными сдвигами через JS? Либо просто сделаем, чтобы искры двигались только вверх, 
-   а небольшой горизонтальный дрейф можно добавить с помощью transforms в JS. 
-   Для упрощения оставим только вертикальный подъём и лёгкое случайное смещение влево-вправо через дополнительную переменную. 
-   Но проще всего оставить как есть — искры будут подниматься строго вверх, но выглядит всё равно эффектно. 
-   Я оставлю так, а при желании можно доработать. */
-
-/* Для красоты добавим вторую анимацию с небольшим горизонтальным смещением, но её нужно задать через JS.
-   В текущей реализации оставим простой подъём. */
-
-@keyframes floatSpark {
-    0% {
-        transform: translate(0, 0);
-        opacity: 0.9;
-    }
-
-    100% {
-        transform: translate(calc(20px * (random() - 0.5)), -100vh); /* random не работает */
-        opacity: 0;
-    }
-}
-
-/* Перепишем анимацию без random: искры будут слегка отклоняться в разные стороны, но фиксированно.
-   Чтобы добавить разнообразия, создадим несколько вариантов анимаций через классы, но это сложно.
-   Вместо этого зададим случайное смещение через JS при создании.
-   Я изменю JS: буду добавлять индивидуальные ключевые кадры или задавать transform в анимации через CSS-переменные.
-   Но для простоты и читаемости кода я оставлю классический вариант: искры поднимаются вверх с небольшим горизонтальным дрейфом,
-   а значения дрейфа будут заданы через разные классы анимации, которые мы сгенерируем заранее.
-   Но это перегружает код. Поэтому упростим: искры будут подниматься строго вверх и слегка менять прозрачность.
-   Это всё равно даст эффект летящих искр.
-   Я оставлю так, как есть: анимация только вертикального подъёма с изменением прозрачности.
-*/
-
+/* Анимация искры */
 @keyframes floatSpark {
     0% {
         transform: translateY(0);
@@ -135,7 +81,6 @@ body {
     }
 }
 
-/* ===== ШАПКА (на весь экран) ===== */
 /* ===== ШАПКА (на весь экран) ===== */
 header {
     height: 100vh;
@@ -150,7 +95,7 @@ header {
     overflow: hidden;
 }
 
-    /* Псевдоэлемент для размытого фона под текстом (только в развёрнутом состоянии) */
+    /* Размытый фон под текстом (только в развёрнутом состоянии) */
     header::before {
         content: '';
         position: absolute;
@@ -181,14 +126,16 @@ header {
         transition: font-size 0.5s ease;
         text-shadow: 4px 4px 8px black;
         margin: 0;
+        cursor: pointer; /* чтобы было понятно, что кликабельно */
     }
 
+    /* Навигация в развёрнутом состоянии */
     header nav ul {
         list-style: none;
         display: flex;
         gap: 2rem;
         justify-content: center;
-        margin-top: 20px;
+        margin-top: 1.5rem;
     }
 
     header nav a {
@@ -197,29 +144,29 @@ header {
         font-weight: 500;
         transition: color 0.2s;
         text-shadow: 1px 1px 2px black;
-        font-size: 1.2rem;
+        font-size: 1.5rem;
     }
 
         header nav a:hover {
             color: #f9a8d4;
         }
 
-    /* ===== СЖАТОЕ СОСТОЯНИЕ ШАПКИ (при скролле) ===== */
+    /* ===== СЖАТОЕ СОСТОЯНИЕ (при скролле) ===== */
     header.shrink {
-        height: 80px;
-        min-height: 80px;
+        height: 70px;
+        min-height: 70px;
     }
 
         header.shrink::before {
-            display: none;
+            display: none; /* убираем размытый фон */
         }
 
         header.shrink .container {
-            background-color: rgba(30, 74, 59, 0.7);
+            background-color: rgba(30, 74, 59, 0.7); /* лёгкий полупрозрачный фон */
             backdrop-filter: blur(10px);
             -webkit-backdrop-filter: blur(10px);
             border-radius: 50px;
-            padding: 0.8rem 2rem;
+            padding: 0.4rem 1.5rem;
             display: flex;
             justify-content: space-between;
             align-items: center;
@@ -231,18 +178,25 @@ header {
 
         header.shrink h1 {
             font-size: 1.8rem;
-            font-family: 'Segoe UI', Roboto, sans-serif;
+            font-family: 'Creepster', cursive;
             text-shadow: 2px 2px 4px black;
             margin: 0;
+            line-height: 70px;
+            cursor: pointer;
         }
 
+        /* Навигация в сжатом состоянии */
         header.shrink nav ul {
-            margin-top: 0;
+            display: flex;
             gap: 1.5rem;
+            margin: 0;
         }
 
         header.shrink nav a {
             font-size: 1rem;
+            color: white;
+            text-shadow: 1px 1px 2px black;
+            padding: 0.3rem 0;
         }
 
 /* Основной контент */
@@ -505,15 +459,24 @@ footer {
         font-size: 4rem;
     }
 
+    header nav a {
+        font-size: 1.2rem;
+    }
+
+    header.shrink h1 {
+        font-size: 1.5rem;
+    }
+
     header.shrink .container {
-        flex-direction: column;
-        gap: 0.5rem;
-        border-radius: 30px;
-        padding: 1rem;
+        padding: 0.3rem 1rem;
     }
 
     header.shrink nav ul {
         gap: 1rem;
+    }
+
+    header.shrink nav a {
+        font-size: 0.9rem;
     }
 
     .about-content {
@@ -574,5 +537,20 @@ footer {
     footer .container {
         border-radius: 30px;
         padding: 1rem;
+    }
+
+    header.shrink .container {
+        flex-direction: column;
+        align-items: center;
+        border-radius: 30px;
+    }
+
+    header.shrink h1 {
+        line-height: 1.2;
+        margin-bottom: 0.3rem;
+    }
+
+    header.shrink nav ul {
+        gap: 0.8rem;
     }
 }
