@@ -113,9 +113,9 @@
         const statusSpan = document.getElementById('music-status');
         const overlay = document.getElementById('start-overlay');
         const header = document.getElementById('main-header');
-        const logo = document.getElementById('logo'); // заголовок Velsewoul
+        const logo = document.getElementById('logo');
 
-        // Клик по оверлею – запуск видео и музыки
+        // Оверлей первого клика
         overlay.addEventListener('click', function () {
             overlay.classList.add('hidden');
             video.play().catch(error => console.log('Ошибка видео:', error));
@@ -129,7 +129,7 @@
             });
         });
 
-        // Кнопка play/pause музыки
+        // Кнопка play/pause
         playPauseBtn.addEventListener('click', () => {
             if (audio.paused) {
                 audio.play();
@@ -142,7 +142,7 @@
             }
         });
 
-        // Регулировка громкости
+        // Громкость
         volumeControl.addEventListener('input', (e) => {
             audio.volume = e.target.value;
         });
@@ -156,15 +156,15 @@
             }
         });
 
-        // Прокрутка вверх при клике на логотип Velsewoul
-        logo.addEventListener('click', () => {
+        // Клик по логотипу Velsewoul — прокрутка вверх
+        logo.addEventListener('click', function () {
             window.scrollTo({
                 top: 0,
                 behavior: 'smooth'
             });
         });
 
-        // Генерация искр костра
+        // Генерация искр
         const sparksContainer = document.getElementById('sparks-container');
         const numberOfSparks = 50;
 
